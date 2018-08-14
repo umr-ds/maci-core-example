@@ -11,7 +11,7 @@ def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
     print "Starting iperf to %s" % str(dst_address)
     
-    destination.client.icmd('iperf -s -i 1 -y C > server.log &')
+    destination.client.icmd('iperf -s -i 1 -y C > server.log')
     source.client.icmd('iperf -c ' + str(dst_address) + ' -t 10 > client.log')
     framework.addLogfile("server.log")
     framework.addLogfile("client.log")
