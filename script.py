@@ -11,7 +11,9 @@ def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
     print "Starting iperf to %s" % str(dst_address)
     
-    destination.client.icmd(['iperf', '-s', '-D'])
+    destination.cmd(['iperf', '-s', '-D'])
+    destination.cmd(['echo', 'Server'])
+    source.cmd(['echo', 'client'])
     source.client.icmd(['iperf', '-c', str(dst_address), '-t', '10'])
 
 if __name__ == '__main__':
