@@ -8,7 +8,7 @@ from core.emulator.emudata import IpPrefixes, LinkOptions
 from core.enumerations import NodeTypes, EventTypes
 
 def iperf(source, destination):
-    dst_address = prefixes.ip4_address(first_node)
+    dst_address = prefixes.ip4_address(destination)
     print "Starting iperf to %s" % str(dst_address)
 
     destination.cmd(["iperf", "-s", "-D"])
@@ -16,6 +16,7 @@ def iperf(source, destination):
     destination.cmd(["killall", "-9", "iperf"])
 
 if __name__ == '__main__':
+
     framework.start()
 
     print "Starting Experiment"
@@ -40,8 +41,8 @@ if __name__ == '__main__':
         node = session.add_node()
         interface = prefixes.create_interface(node)
         link_opts = LinkOptions()
-        link_opts.delay = {{delay}}
-        link_opts.bandwidth = {{mean_bw}}
+        link_opts.delay = 10
+        link_opts.bandwidth = 1000000
         session.add_link(node.objid,
             switch.objid,
             interface_one=interface,
@@ -62,5 +63,5 @@ if __name__ == '__main__':
     coreemu.shutdown()
 
     print "Done. Stopping simulation."
-    
+
     framework.stop()
