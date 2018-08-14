@@ -1,4 +1,5 @@
-### NOTE: MAKE SURE iperf IS INSTALLED FOR THIS EXAMPLE
+### ENV int mean_bw "The mean bandwidth at the bottleneck"
+### ENV int delay "The delay per link"
 
 import framework
 
@@ -49,7 +50,13 @@ if __name__ == '__main__':
     for _ in xrange(2):
         node = session.add_node()
         interface = prefixes.create_interface(node)
-        session.add_link(node.objid, switch.objid, interface_one=interface)
+        link_opts = LinkOptions()
+        link_opts.delay = {{delay}}
+        link_opts.bandwidth = {{mean_bw}}
+        session.add_link(node.objid,
+            switch.objid,
+            interface_one=interface,
+            link_options=link_opts)
 
     # instantiate session
     session.instantiate()
