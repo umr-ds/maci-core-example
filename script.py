@@ -13,9 +13,9 @@ def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
     print "Starting iperf to %s" % str(dst_address)
     
-    destination.cmd(['iperf', '-s', '-D'])
+    destination.cmd(["iperf", "-s", "-D"])
     time.sleep(5)
-    source.client.icmd(['iperf', '-c', str(dst_address), '-t', '10'])
+    source.client.icmd(["iperf", "-t", "10", "-c", dst_address])
 
 if __name__ == '__main__':
     framework.start()
