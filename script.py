@@ -4,7 +4,7 @@
 import framework
 
 from core.emulator.coreemu import CoreEmu
-from core.emulator.emudata import IpPrefixes
+from core.emulator.emudata import IpPrefixes, LinkOptions
 from core.enumerations import NodeTypes, EventTypes
 
 def iperf(source, destination):
