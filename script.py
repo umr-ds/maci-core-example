@@ -10,9 +10,10 @@ from core.enumerations import NodeTypes, EventTypes
 def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
     print "Starting iperf to %s" % str(dst_address)
-    
+
     destination.cmd(["iperf", "-s", "-D"])
     source.client.icmd(["iperf", "-t", "10", "-c", dst_address])
+    destination.cmd(["killall", "-9", "iperf"])
 
 if __name__ == '__main__':
     framework.start()
