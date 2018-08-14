@@ -3,6 +3,8 @@
 
 import framework
 
+import time
+
 from core.emulator.coreemu import CoreEmu
 from core.emulator.emudata import IpPrefixes, LinkOptions
 from core.enumerations import NodeTypes, EventTypes
@@ -12,6 +14,7 @@ def iperf(source, destination):
     print "Starting iperf to %s" % str(dst_address)
     
     destination.cmd(['iperf', '-s', '-D'])
+    time.sleep(5)
     source.client.icmd(['iperf', '-c', str(dst_address), '-t', '10'])
 
 if __name__ == '__main__':
