@@ -9,11 +9,14 @@ from core.enumerations import NodeTypes, EventTypes
 
 def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
+    print "Starting iperf to %s" % str(dst_address)
     
     destination.cmd('iperf -s -i 1 -y C > server.log &')
     source.client.icmd('iperf -c ' + str(dst_address) + ' -t 10 > client.log')
     framework.addLogfile("server.log")
     framework.addLogfile("client.log")
+
+    print "Done. Parsing log now."
     
     server = open('server.log', 'r')
     bwsamples = []
@@ -33,6 +36,8 @@ def iperf(source, destination):
 if __name__ == '__main__':
     framework.start()
 
+    print "Starting Experiment"
+
     # ip generator for example
     prefixes = IpPrefixes(ip4_prefix="10.83.0.0/16")
 
@@ -46,6 +51,8 @@ if __name__ == '__main__':
     # create switch network node
     switch = session.add_node(_type=NodeTypes.SWITCH)
 
+    print "Everything is set up now."
+
     # create nodes
     for _ in xrange(2):
         node = session.add_node()
@@ -58,6 +65,8 @@ if __name__ == '__main__':
             interface_one=interface,
             link_options=link_opts)
 
+    print "Links are set up."
+
     # instantiate session
     session.instantiate()
 
@@ -69,5 +78,7 @@ if __name__ == '__main__':
 
     # shutdown session
     coreemu.shutdown()
+
+    print "Done. Stopping simulation."
     
     framework.stop()
