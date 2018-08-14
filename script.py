@@ -24,10 +24,10 @@ def iperf(source, destination):
             timestamp = float(matchObj.group(1))
             bwsample = float(matchObj.group(9)) / 1000.0 / 1000.0 # bits per second -> MBit
             bwsamples.append(bwsample)
-        if minTimestamp is None:
-            minTimestamp = timestamp
-        framework.record("iperf_mbit_over_time", bwsample, timestamp - minTimestamp)
-  framework.record("iperf_mbit_avg", sum(bwsamples) / len(bwsamples), offset=5)
+            if minTimestamp is None:
+                minTimestamp = timestamp
+            framework.record("iperf_mbit_over_time", bwsample, timestamp - minTimestamp)
+    framework.record("iperf_mbit_avg", sum(bwsamples) / len(bwsamples), offset=5)
 
 if __name__ == '__main__':
     framework.start()
@@ -57,6 +57,8 @@ if __name__ == '__main__':
     # get nodes to run example
     first_node = session.get_object(2)
     last_node = session.get_object(3)
+
+    iperf(first_node, last_node)
 
     # shutdown session
     coreemu.shutdown()
