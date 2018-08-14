@@ -11,27 +11,8 @@ def iperf(source, destination):
     dst_address = prefixes.ip4_address(first_node)
     print "Starting iperf to %s" % str(dst_address)
     
-    destination.client.icmd('iperf -s -i 1 -y C > server.log')
-    source.client.icmd('iperf -c ' + str(dst_address) + ' -t 10 > client.log')
-    framework.addLogfile("server.log")
-    framework.addLogfile("client.log")
-
-    print "Done. Parsing log now."
-    
-    server = open('server.log', 'r')
-    bwsamples = []
-    minTimestamp = None
-    for line in server:
-        # 20160622002425,10.0.0.2,5001,10.0.0.1,39345,4,0.0-1.0,14280,114240
-        matchObj = re.match(r'(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)', line, re.M)
-        if matchObj:
-            timestamp = float(matchObj.group(1))
-            bwsample = float(matchObj.group(9)) / 1000.0 / 1000.0 # bits per second -> MBit
-            bwsamples.append(bwsample)
-            if minTimestamp is None:
-                minTimestamp = timestamp
-            framework.record("iperf_mbit_over_time", bwsample, timestamp - minTimestamp)
-    framework.record("iperf_mbit_avg", sum(bwsamples) / len(bwsamples), offset=5)
+    destination.cmd(['iperf'], ['-s'], ['-i'], ['1'], ['-y'], ['C'], ['-D'])
+    source.client.icmd(['iperf'], ['-c'], str(dst_address), ['-t'], ['10'])
 
 if __name__ == '__main__':
     framework.start()
