@@ -1,1 +1,1 @@
-{"paramValues":{"mean_bw":[1000000],"delay":[1000000]},"capabilities":["core"],"repetitions":1,"seeds":1}
+{"paramValues":{"mean_bw":[1000000],"delay":[10]},"capabilities":["core"],"repetitions":1,"seeds":1}
